@@ -14,7 +14,7 @@
     <groupId>com.yyq.sso.authorize</groupId>
     <artifactId>user-authorize-manager</artifactId>
     <version>${user-authorize-manager.version}</version>
-    <description>统一认证</description>
+    <description>统一鉴权认证服务</description>
     <packaging>pom</packaging>
 
     <!--模块管理-->
@@ -23,11 +23,17 @@
         <module>user-authorize-client</module>
     </modules>
 
+    <!--变量配置-->
     <properties>
         <user-authorize-manager.version>1.0.0</user-authorize-manager.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <redis.session.version>1.0.2</redis.session.version>
+        <oauth.server.version>1.1.2</oauth.server.version>
+        <mysql.version>8.0.33</mysql.version>
+        <druid.version>1.2.18</druid.version>
+        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
     </properties>
 
     <!--版本管理-->
@@ -36,26 +42,37 @@
             <dependency>
                 <groupId>com.inge.cache.redis</groupId>
                 <artifactId>redis-cache-spring-boot-starter</artifactId>
-                <version>1.0.2</version>
+                <version>${redis.session.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.springframework.security.oauth.boot/spring-security-oauth2-autoconfigure -->
+            <!-- OAuth2授权 -->
             <dependency>
-                <groupId>org.springframework.security.oauth.boot</groupId>
-                <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-                <version>2.6.8</version>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${oauth.server.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.33</version>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
-
+    <!--构建配置-->
     <build>
+        <!--插件管理-->
         <plugins>
+            <!--jar编译-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -73,7 +90,7 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-
+            <!--源码打包-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
